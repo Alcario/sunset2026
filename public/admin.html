@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel Administrador 6° Año | SUNSET 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <a href="/" class="brand">
+      <span class="brand-sun">🌅</span>
+      <span>ADMIN SUNSET 2026 <small style="font-weight:600; color:var(--sunset-gold); font-size:0.78rem; display:block; line-height:1;">Organización 6° Año</small></span>
+    </a>
+    <nav class="nav-links">
+      <a href="/">🏠 Ver Landing</a>
+      <a href="/scanner.html" class="btn btn-primary btn-sm">📷 Ir al Escáner de Puerta</a>
+      <button type="button" id="logoutBtn" class="btn btn-secondary btn-sm" style="display:none;">Salir</button>
+    </nav>
+  </header>
+
+  <!-- Login Box -->
+  <div class="dashboard-wrap" id="loginSection" style="max-width: 460px; margin-top: 50px;">
+    <div class="panel-card" style="text-align: center;">
+      <div style="font-size: 2.6rem; margin-bottom: 10px;">🔐</div>
+      <h2 style="margin-bottom: 6px;">Acceso Organizadores (6° Año)</h2>
+      <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 20px;">
+        Ingresá la clave de administrador para gestionar inscriptos, ver comprobantes, confirmar pagos y enviar entradas QR.
+      </p>
+      <div id="loginError" class="alert alert-error" style="display:none;"></div>
+      <form id="loginForm">
+        <div class="form-group" style="text-align:left; margin-bottom: 16px;">
+          <label for="adminPassword">Contraseña de Administrador</label>
+          <input type="password" id="adminPassword" class="form-control" placeholder="Clave (por defecto: sunset2026)" required />
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Ingresar al Panel</button>
+      </form>
+      <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 14px;">
+        💡 Clave inicial por defecto: <code>sunset2026</code> (podés cambiarla en Configuración).
+      </p>
+    </div>
+  </div>
+
+  <!-- Main Admin Dashboard -->
+  <main class="dashboard-wrap" id="adminDashboard" style="display: none;">
+    <!-- Tabs -->
+    <div style="display: flex; gap: 12px; margin-bottom: 22px; flex-wrap: wrap; justify-content: space-between; align-items: center;">
+      <div style="display: flex; gap: 10px;">
+        <button type="button" class="btn btn-primary btn-sm" id="tabBtnRegistrations">📋 Inscriptos y Confirmación QR</button>
+        <button type="button" class="btn btn-secondary btn-sm" id="tabBtnSettings">⚙️ Configuración y Correo Gmail</button>
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <button type="button" class="btn btn-secondary btn-sm" id="refreshBtn">🔄 Actualizar</button>
+        <button type="button" class="btn btn-secondary btn-sm" id="exportCsvBtn">📊 Descargar Planilla CSV</button>
+      </div>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value" id="statTotal">0</div>
+        <div class="stat-label">Total Inscriptos</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statPending" style="color: #fde68a;">0</div>
+        <div class="stat-label">Pendientes de Confirmar</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statConfirmed" style="color: #6ee7b7;">0</div>
+        <div class="stat-label">Confirmados (con QR)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statCheckedIn" style="color: #00f5d4;">0</div>
+        <div class="stat-label">Ya Ingresaron en Puerta</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statRevenue">$0</div>
+        <div class="stat-label">Recaudación Confirmada</div>
+      </div>
+    </div>
+
+    <!-- TAB 1: REGISTRATIONS -->
+    <section id="viewRegistrations" class="panel-card">
+      <div class="filters-bar">
+        <input type="text" id="searchInput" class="form-control" placeholder="🔍 Buscar por nombre, apellido, DNI o email..." style="flex: 1; min-width: 240px;" />
+
+        <select id="filterCourse" class="form-control">
+          <option value="">Todos los Cursos</option>
+          <option value="6° Grado">6° Grado</option>
+          <option value="1° Año">1° Año</option>
+          <option value="2° Año">2° Año</option>
+        </select>
+
+        <select id="filterStatus" class="form-control">
+          <option value="">Todos los Estados</option>
+          <option value="pendiente">⏳ Pendientes</option>
+          <option value="confirmado">✅ Confirmados</option>
+        </select>
+
+        <select id="filterPayment" class="form-control">
+          <option value="">Todas las Formas de Pago</option>
+          <option value="efectivo">💵 Efectivo</option>
+          <option value="transferencia">📲 Transferencia</option>
+        </select>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Alumno/a</th>
+              <th>DNI</th>
+              <th>Curso</th>
+              <th>Correo / Tel. Padres</th>
+              <th>Pago y Comprobante</th>
+              <th>Estado / Puerta</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="registrationsTableBody">
+            <tr>
+              <td colspan="7" style="text-align:center; padding: 30px; color: var(--text-muted);">Cargando inscripciones...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB 2: SETTINGS -->
+    <section id="viewSettings" class="panel-card" style="display: none;">
+      <h3 style="margin-bottom: 6px;">⚙️ Configuración General del Evento y Envío de Emails</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">
+        Modificá el valor de la entrada, datos bancarios para transferencias y la cuenta de Gmail desde la cual se enviarán las entradas QR automáticamente.
+      </p>
+
+      <div id="settingsAlert" style="display: none;"></div>
+
+      <form id="settingsForm">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Precio de la Entrada ($ ARS)</label>
+            <input type="number" id="set_ticket_price" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label>Alias Bancario (Transferencias)</label>
+            <input type="text" id="set_bank_alias" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label>CBU / CVU</label>
+            <input type="text" id="set_bank_cbu" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label>Titular de la Cuenta</label>
+            <input type="text" id="set_bank_holder" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label>Banco / Billetera</label>
+            <input type="text" id="set_bank_name" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label>Divisiones disponibles (separadas por coma)</label>
+            <input type="text" id="set_divisions" class="form-control" placeholder="A,B,C,Única" required />
+          </div>
+          <div class="form-group full-width">
+            <label>Instrucciones para pago en Efectivo</label>
+            <input type="text" id="set_cash_instructions" class="form-control" required />
+          </div>
+
+          <div class="form-group full-width" style="margin-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 16px;">
+            <h4 style="color: var(--sunset-gold);">📧 Configuración de Correo Electrónico (Gmail SMTP)</h4>
+            <p style="font-size: 0.84rem; color: var(--text-muted);">
+              Para que el sistema envíe el código QR automáticamente al correo del alumno cuando confirmás su pago, colocá tu correo Gmail y una <strong>Contraseña de Aplicación de Google</strong> (de 16 letras). Si lo dejás vacío, igual podrás descargar el QR o enviarlo por WhatsApp.
+            </p>
+          </div>
+
+          <div class="form-group">
+            <label>Correo Gmail Emisor</label>
+            <input type="email" id="set_smtp_user" class="form-control" placeholder="promo6valle@gmail.com" />
+          </div>
+          <div class="form-group">
+            <label>Contraseña de Aplicación de Gmail</label>
+            <input type="password" id="set_smtp_pass" class="form-control" placeholder="xxxx xxxx xxxx xxxx" />
+          </div>
+
+          <div class="form-group">
+            <label>Contraseña del Panel Admin y Escáner</label>
+            <input type="text" id="set_admin_password" class="form-control" required />
+          </div>
+
+          <div class="form-group full-width" style="margin-top: 10px;">
+            <button type="submit" class="btn btn-primary">💾 Guardar Configuración</button>
+          </div>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <!-- Modal: View Transfer Receipt -->
+  <div class="modal-backdrop" id="receiptModal">
+    <div class="modal-box" style="text-align: center;">
+      <h3 id="receiptModalTitle" style="margin-bottom: 12px;">Comprobante de Transferencia</h3>
+      <div id="receiptModalContent" style="margin-bottom: 18px;"></div>
+      <div style="display: flex; gap: 10px; justify-content: center;">
+        <a id="receiptDownloadLink" href="#" target="_blank" class="btn btn-secondary btn-sm">🔍 Abrir en pestaña nueva</a>
+        <button type="button" class="btn btn-primary btn-sm" id="closeReceiptModal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: QR Ticket Card & Email/WhatsApp Actions -->
+  <div class="modal-backdrop" id="qrModal">
+    <div class="modal-box" style="text-align: center;">
+      <h3 style="margin-bottom: 6px; color: var(--sunset-gold);">🎟️ Entrada QR Generada</h3>
+      <p id="qrModalEmailStatus" style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 14px;"></p>
+
+      <div style="background: #ffffff; color: #160726; border-radius: 18px; padding: 18px; max-width: 310px; margin: 0 auto 16px; box-shadow: 0 12px 30px rgba(0,0,0,0.45);">
+        <div style="font-size: 0.72rem; font-weight: 800; text-transform: uppercase; color: #ff4769;">🌅 SUNSET 2026 • Ntra. Sra. del Valle</div>
+        <div id="qrStudentName" style="font-size: 1.15rem; font-weight: 900; margin: 4px 0;"></div>
+        <div id="qrStudentMeta" style="font-size: 0.84rem; color: #4b5563; margin-bottom: 10px;"></div>
+        <img id="qrImage" src="" alt="QR Entrada" style="width: 220px; height: 220px; display: block; margin: 0 auto;" />
+        <div id="qrCodeText" style="font-family: monospace; font-weight: 800; font-size: 0.82rem; margin-top: 8px; color: #111;"></div>
+        <div style="font-size: 0.72rem; color: #6b7280; margin-top: 4px;">Válido para 1 único ingreso • 27 Nov 19:30 hs</div>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 12px;">
+        <a id="downloadQrBtn" href="#" download="Entrada_Sunset.png" class="btn btn-primary btn-sm">⬇️ Descargar QR</a>
+        <a id="whatsappShareBtn" href="#" target="_blank" class="btn btn-success btn-sm">💬 Enviar Link QR por WhatsApp</a>
+        <button type="button" id="resendEmailBtn" class="btn btn-secondary btn-sm">📧 Reenviar al Email</button>
+      </div>
+
+      <button type="button" class="btn btn-secondary btn-sm" id="closeQrModal" style="width: 100%;">Cerrar ventana</button>
+    </div>
+  </div>
+
+  <script src="/admin.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SUNSET 2026 | Instituto Parroquia Nuestra Señora del Valle - Córdoba</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <a href="/" class="brand">
+      <span class="brand-sun">🌅</span>
+      <span>SUNSET 2026 <small style="font-weight:600; color:var(--sunset-gold); font-size:0.78rem; display:block; line-height:1;">Ntra. Sra. del Valle</small></span>
+    </a>
+    <nav class="nav-links">
+      <a href="#experiencia">¿Qué va a haber?</a>
+      <a href="#info-padres">Info Padres</a>
+      <a href="#inscripcion" class="btn btn-primary btn-sm">🎟️ Inscribirme</a>
+      <a href="/scanner.html" class="btn btn-secondary btn-sm">📷 Puerta QR</a>
+      <a href="/admin.html" class="btn btn-secondary btn-sm">⚙️ Admin 6° Año</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-sun-backdrop"></div>
+    <div class="hero-content">
+      <div class="school-badge">
+        ✨ Organiza Promo 6° Año • Instituto Parroquia Nuestra Señora del Valle (Córdoba)
+      </div>
+      <h1>SUNSET PARTY 2026</h1>
+      <p class="hero-subtitle">
+        ¡La tarde-noche más esperada del año! Música, amigos, luces neon, gaseosas, snacks, juegos y el mejor atardecer para cerrar el año a lo grande.
+      </p>
+
+      <div class="courses-pills">
+        <span class="course-pill">🔥 6° GRADO</span>
+        <span class="course-pill">⚡ 1° AÑO</span>
+        <span class="course-pill">🚀 2° AÑO</span>
+      </div>
+
+      <div class="event-meta-bar">
+        <div class="meta-item">
+          <span class="meta-icon">📅</span>
+          <div>
+            <div style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase;">Fecha del Evento</div>
+            <div>Viernes 27 de Noviembre</div>
+          </div>
+        </div>
+        <div class="meta-item">
+          <span class="meta-icon">🕢</span>
+          <div>
+            <div style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase;">Horario</div>
+            <div id="heroTimeText">19:30 a 23:00 hs</div>
+          </div>
+        </div>
+        <div class="meta-item">
+          <span class="meta-icon">📍</span>
+          <div>
+            <div style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase;">Lugar</div>
+            <div id="heroVenueText">Instituto Parroquia Ntra. Sra. del Valle • Córdoba</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Countdown -->
+      <div class="countdown-wrap" id="countdown">
+        <div class="countdown-box">
+          <div class="countdown-num" id="cd-days">00</div>
+          <div class="countdown-label">Días</div>
+        </div>
+        <div class="countdown-box">
+          <div class="countdown-num" id="cd-hours">00</div>
+          <div class="countdown-label">Horas</div>
+        </div>
+        <div class="countdown-box">
+          <div class="countdown-num" id="cd-mins">00</div>
+          <div class="countdown-label">Minutos</div>
+        </div>
+        <div class="countdown-box">
+          <div class="countdown-num" id="cd-secs">00</div>
+          <div class="countdown-label">Segundos</div>
+        </div>
+      </div>
+
+      <div>
+        <a href="#inscripcion" class="btn btn-primary" style="font-size: 1.12rem; padding: 16px 36px;">
+          🎟️ ¡Quiero mi Entrada QR!
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience Section -->
+  <section class="section" id="experiencia">
+    <div class="section-header">
+      <h2>🌈 ¿Qué te espera en el Sunset?</h2>
+      <p>Preparado por los chicos de 6° Año para que vivas una fiesta inolvidable con tu curso</p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🎧</div>
+        <h3>DJ en Vivo & Pista Neon</h3>
+        <p>Sonido profesional, luces LED, efectos especiales y todos los temazos que quieren escuchar 6° grado, 1° y 2° año.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🥤</div>
+        <h3>Gaseosas & Snacks</h3>
+        <p>Gaseosas bien frías, agua y cosas ricas para compartir y recargar energías con tus amigos toda la noche.</p>
+      </div>
+      <div class="feature-card" id="info-padres">
+        <div class="feature-icon">🛡️</div>
+        <h3>Cuidado & Entrada QR Única</h3>
+        <p>Ambiente cuidado dentro de la comunidad del Instituto Parroquia Ntra. Sra. del Valle, con control de ingreso por QR y registro de teléfono de padres.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Registration Form Section -->
+  <section class="section" id="inscripcion">
+    <div class="section-header">
+      <h2>🎟️ Inscripción Oficial al Sunset</h2>
+      <p>Completá tus datos para reservar tu lugar. Cuando se confirme tu pago, te enviaremos tu entrada con código QR por correo electrónico.</p>
+    </div>
+
+    <div class="form-container">
+      <div class="price-banner">
+        <div>
+          <div style="font-size: 0.84rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Valor de la Entrada General</div>
+          <div style="font-size: 0.92rem; color: #fff;">Incluye acceso al evento + participación en sorteos</div>
+        </div>
+        <div class="price-tag" id="ticketPriceDisplay">$8.000</div>
+      </div>
+
+      <div id="formAlert" style="display: none;"></div>
+
+      <form id="registrationForm" novalidate>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="first_name">Nombre del Alumno/a *</label>
+            <input type="text" id="first_name" name="first_name" class="form-control" placeholder="Ej: Valentino" required />
+          </div>
+
+          <div class="form-group">
+            <label for="last_name">Apellido *</label>
+            <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Ej: González" required />
+          </div>
+
+          <div class="form-group">
+            <label for="dni">DNI del Alumno/a (sin puntos) *</label>
+            <input type="text" id="dni" name="dni" class="form-control" inputmode="numeric" placeholder="Ej: 52345678" required />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Correo Electrónico (donde llegará el QR) *</label>
+            <input type="email" id="email" name="email" class="form-control" placeholder="ejemplo@gmail.com" required />
+          </div>
+
+          <div class="form-group">
+            <label for="course">Curso al que asiste *</label>
+            <select id="course" name="course" class="form-control" required>
+              <option value="">Seleccioná tu curso...</option>
+              <option value="6° Grado">6° Grado (Primaria)</option>
+              <option value="1° Año">1° Año (Secundaria)</option>
+              <option value="2° Año">2° Año (Secundaria)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="division">División *</label>
+            <select id="division" name="division" class="form-control" required>
+              <option value="A">División A</option>
+              <option value="B">División B</option>
+              <option value="C">División C</option>
+              <option value="Única">Única</option>
+            </select>
+          </div>
+
+          <div class="form-group full-width">
+            <label for="parent_phone">Teléfono de Padre / Madre / Tutor (con característica) *</label>
+            <input type="tel" id="parent_phone" name="parent_phone" class="form-control" placeholder="Ej: 351 6123456" required />
+          </div>
+
+          <!-- Payment Method Selection -->
+          <div class="form-group full-width">
+            <label>Seleccioná la Forma de Pago *</label>
+            <div class="payment-options">
+              <label class="payment-card active" id="cardEfectivo">
+                <input type="radio" name="payment_method" value="efectivo" checked />
+                <div class="payment-card-icon">💵</div>
+                <div class="payment-card-title">Efectivo</div>
+                <div class="payment-card-desc">Te inscribís ahora y abonás en mano a 6° Año</div>
+              </label>
+
+              <label class="payment-card" id="cardTransferencia">
+                <input type="radio" name="payment_method" value="transferencia" />
+                <div class="payment-card-icon">📲</div>
+                <div class="payment-card-title">Transferencia</div>
+                <div class="payment-card-desc">Transferís al Alias y subís el comprobante acá</div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Cash Info Panel -->
+          <div class="form-group full-width" id="cashInfoBox">
+            <div class="payment-info-box">
+              <div style="font-weight: 800; color: var(--sunset-gold); margin-bottom: 6px;">💵 Pago en Efectivo seleccionado</div>
+              <p style="font-size: 0.92rem; color: var(--text-light);" id="cashInstructionsText">
+                Podés continuar y enviar tu inscripción ahora mismo. Luego acercate a los organizadores de 6° Año para abonar en efectivo; una vez confirmado el pago te llegará la entrada QR a tu correo electrónico.
+              </p>
+            </div>
+          </div>
+
+          <!-- Transfer Info & Receipt Upload Panel -->
+          <div class="form-group full-width" id="transferInfoBox" style="display: none;">
+            <div class="payment-info-box">
+              <div style="font-weight: 800; color: var(--sunset-gold); margin-bottom: 10px;">🏦 Datos para realizar la Transferencia</div>
+              <div class="bank-detail-row">
+                <span style="color: var(--text-muted);">Monto a transferir:</span>
+                <strong id="bankPriceText" style="color: var(--sunset-gold); font-size: 1.05rem;">$8.000</strong>
+              </div>
+              <div class="bank-detail-row">
+                <span style="color: var(--text-muted);">Alias:</span>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <strong id="bankAliasText" style="font-family: monospace; font-size: 1.05rem; color: #fff;">SUNSET.VALLE.26</strong>
+                  <button type="button" class="btn btn-secondary btn-sm" id="copyAliasBtn" style="padding: 4px 10px; font-size: 0.76rem;">📋 Copiar</button>
+                </div>
+              </div>
+              <div class="bank-detail-row">
+                <span style="color: var(--text-muted);">CBU / CVU:</span>
+                <strong id="bankCbuText" style="font-family: monospace;">0000003100000000000000</strong>
+              </div>
+              <div class="bank-detail-row">
+                <span style="color: var(--text-muted);">Titular / Entidad:</span>
+                <strong id="bankHolderText">Promo 6to Año - Ntra. Sra. del Valle</strong>
+              </div>
+
+              <!-- Upload Receipt -->
+              <div class="upload-zone" id="uploadZone">
+                <input type="file" id="receipt" name="receipt" accept="image/*,.pdf" style="display: none;" />
+                <div style="font-size: 2rem; margin-bottom: 6px;">📤</div>
+                <div style="font-weight: 800; color: #fff;" id="uploadFileName">Hacé clic acá para subir el comprobante de transferencia *</div>
+                <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 4px;">Acepta captura de pantalla (JPG, PNG, WEBP) o archivo PDF (máx. 10 MB)</div>
+                <img id="receiptPreview" alt="Vista previa del comprobante" style="max-width: 220px; max-height: 220px; border-radius: 12px; margin-top: 12px; display: none; margin-left: auto; margin-right: auto; border: 1px solid rgba(255,255,255,0.2);" />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group full-width" style="margin-top: 10px;">
+            <button type="submit" class="btn btn-primary" id="submitBtn" style="width: 100%; font-size: 1.08rem; padding: 15px;">
+              🚀 Completar mi Inscripción al Sunset
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>🌅 <strong>SUNSET 2026</strong> • Organizado por los alumnos de <strong>6° Año</strong></p>
+    <p>Instituto Parroquia Nuestra Señora del Valle • Provincia de Córdoba, Argentina</p>
+    <p style="margin-top: 10px; font-size: 0.8rem;">
+      <a href="/admin.html" style="color: var(--sunset-gold); text-decoration: none;">Panel Administrador</a> •
+      <a href="/scanner.html" style="color: var(--sunset-gold); text-decoration: none;">Escáner de Puerta (QR / DNI)</a>
+    </p>
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>
+

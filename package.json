@@ -1,0 +1,18 @@
+{
+  "name": "sunset2026-nsdelvalle",
+  "version": "1.0.0",
+  "description": "Plataforma promocional, inscripción, entradas QR y control de acceso para el Sunset 2026 - Instituto Parroquia Nuestra Señora del Valle (Córdoba)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node --no-warnings server.js",
+    "dev": "node --watch --no-warnings server.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.10.0",
+    "qrcode": "^1.5.4"
+  }
+}
+

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Control de Puerta (Escáner QR + DNI) | SUNSET 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css" />
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <a href="/" class="brand">
+      <span class="brand-sun">📷</span>
+      <span>PUERTA SUNSET 2026 <small style="font-weight:600; color:var(--sunset-gold); font-size:0.78rem; display:block; line-height:1;">Control de Ingreso QR y DNI</small></span>
+    </a>
+    <nav class="nav-links">
+      <a href="/admin.html" class="btn btn-secondary btn-sm">⚙️ Panel Admin</a>
+      <a href="/" class="btn btn-secondary btn-sm">🏠 Landing</a>
+    </nav>
+  </header>
+
+  <!-- Login Section (shares session with Admin) -->
+  <div class="dashboard-wrap" id="scannerLoginSection" style="max-width: 460px; margin-top: 40px;">
+    <div class="panel-card" style="text-align: center;">
+      <div style="font-size: 2.5rem; margin-bottom: 10px;">🎟️</div>
+      <h2 style="margin-bottom: 6px;">Acceso Control de Puerta</h2>
+      <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 18px;">
+        Ingresá la contraseña de organizadores de 6° Año para habilitar el escáner QR y el ingreso manual por DNI.
+      </p>
+      <div id="scannerLoginError" class="alert alert-error" style="display:none;"></div>
+      <form id="scannerLoginForm">
+        <div class="form-group" style="text-align:left; margin-bottom: 14px;">
+          <label for="scannerPass">Contraseña</label>
+          <input type="password" id="scannerPass" class="form-control" placeholder="Clave (por defecto: sunset2026)" required />
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Activar Control de Ingreso</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Main Door Control Interface -->
+  <main class="dashboard-wrap" id="scannerMain" style="display: none; max-width: 960px;">
+
+    <!-- Live Counters -->
+    <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr);">
+      <div class="stat-card" style="text-align: center;">
+        <div class="stat-value" id="doorStatCheckedIn" style="color: #00f5d4;">0</div>
+        <div class="stat-label">Adentro del Sunset</div>
+      </div>
+      <div class="stat-card" style="text-align: center;">
+        <div class="stat-value" id="doorStatConfirmed" style="color: #6ee7b7;">0</div>
+        <div class="stat-label">Total Habilitados</div>
+      </div>
+      <div class="stat-card" style="text-align: center;">
+        <div class="stat-value" id="doorStatRemaining" style="color: var(--sunset-gold);">0</div>
+        <div class="stat-label">Faltan Ingresar</div>
+      </div>
+    </div>
+
+    <!-- Big Visual Feedback Result Box -->
+    <div id="scanResultBanner" class="scan-result-box" style="display: none;">
+      <div id="scanResultIcon" style="font-size: 3.2rem; line-height: 1; margin-bottom: 8px;"></div>
+      <h2 id="scanResultTitle" style="font-size: 1.65rem; font-weight: 900; margin-bottom: 6px;"></h2>
+      <p id="scanResultMessage" style="font-size: 1.05rem; margin-bottom: 12px;"></p>
+      <div id="scanResultStudentCard" style="background: rgba(0,0,0,0.35); border-radius: 14px; padding: 14px; max-width: 460px; margin: 0 auto; text-align: left; font-size: 0.95rem;"></div>
+      <button type="button" id="clearResultBtn" class="btn btn-secondary btn-sm" style="margin-top: 14px;">✨ Listo / Siguiente Alumno</button>
+    </div>
+
+    <!-- Mode Switcher: Camera QR vs Manual DNI -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
+      <button type="button" class="btn btn-primary" id="modeQrBtn">📷 Escanear Código QR</button>
+      <button type="button" class="btn btn-secondary" id="modeDniBtn">🪪 Ingreso Manual por DNI</button>
+    </div>
+
+    <!-- MODE 1: QR CAMERA SCANNER -->
+    <section id="qrScannerPanel" class="panel-card">
+      <div style="text-align: center; margin-bottom: 16px;">
+        <h3>📷 Escáner de Entrada QR (Uso Único)</h3>
+        <p style="font-size: 0.88rem; color: var(--text-muted);">
+          Apuntá la cámara al código QR del alumno. Cada QR solo permite <strong>1 (un) único ingreso</strong>.
+        </p>
+      </div>
+
+      <div id="qrReader" style="max-width: 440px; margin: 0 auto 16px; border-radius: 16px; overflow: hidden; border: 2px solid var(--border-glow);"></div>
+
+      <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 18px;">
+        <button type="button" class="btn btn-primary btn-sm" id="startCamBtn">▶️ Iniciar Cámara</button>
+        <button type="button" class="btn btn-secondary btn-sm" id="stopCamBtn" style="display: none;">⏹️ Detener Cámara</button>
+      </div>
+
+      <!-- Direct QR Code input (for USB barcode/QR readers or testing) -->
+      <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 16px; margin-top: 10px;">
+        <form id="manualQrCodeForm" style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <input type="text" id="qrTokenInput" class="form-control" placeholder="O pegá/escribí el código QR acá (ej: SUNSET26-...)" style="flex: 1;" />
+          <button type="submit" class="btn btn-secondary btn-sm">Validar Código QR</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- MODE 2: MANUAL CHECK-IN BY DNI (CONTINGENCY FALLBACK) -->
+    <section id="manualDniPanel" class="panel-card" style="display: none;">
+      <div style="margin-bottom: 16px;">
+        <h3>🪪 Ingreso Manual por DNI (Contingencia)</h3>
+        <p style="font-size: 0.9rem; color: var(--text-muted);">
+          Si al alumno no le funciona el QR o se quedó sin batería, buscá su <strong>DNI</strong> (o apellido) y seleccioná <strong>"Registrar Ingreso"</strong>. Esto también invalidará su QR para que no pueda usarse dos veces.
+        </p>
+      </div>
+
+      <form id="dniSearchForm" style="display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap;">
+        <input type="text" id="dniSearchInput" class="form-control" placeholder="🔎 Escribí el número de DNI o apellido del alumno..." style="flex: 1; font-size: 1.05rem;" />
+        <button type="submit" class="btn btn-primary">Buscar Alumno</button>
+      </form>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Alumno/a</th>
+              <th>DNI</th>
+              <th>Curso</th>
+              <th>Estado de Pago</th>
+              <th>Acción en Puerta</th>
+            </tr>
+          </thead>
+          <tbody id="dniSearchResultsBody">
+            <tr>
+              <td colspan="5" style="text-align: center; padding: 24px; color: var(--text-muted);">
+                Escribí el DNI del alumno para buscarlo y darle ingreso manual.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Recent Check-ins Log -->
+    <section class="panel-card">
+      <h3 style="margin-bottom: 12px;">🕒 Últimos Ingresos Registrados en Puerta</h3>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Hora</th>
+              <th>Alumno/a</th>
+              <th>DNI</th>
+              <th>Curso</th>
+              <th>Método</th>
+            </tr>
+          </thead>
+          <tbody id="recentCheckinsBody">
+            <tr>
+              <td colspan="5" style="text-align: center; padding: 18px; color: var(--text-muted);">Aún no hay ingresos registrados.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="/scanner.js"></script>
+</body>
+</html>
+
