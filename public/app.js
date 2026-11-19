@@ -14,26 +14,72 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let publicConfig = null;
 
-  function highlightSelectedCourseAlias() {
+  function updateCourseBankDetails() {
     const selectedCourse = courseSelect.value;
-    const map = {
-      '6° Grado': document.getElementById('aliasRow6to'),
-      '1° Año': document.getElementById('aliasRow1ro'),
-      '2° Año': document.getElementById('aliasRow2do')
-    };
-    Object.entries(map).forEach(([courseName, rowEl]) => {
-      if (!rowEl) return;
-      if (selectedCourse === courseName) {
-        rowEl.style.background = 'rgba(255, 194, 71, 0.16)';
-        rowEl.style.border = '1px solid rgba(255, 194, 71, 0.55)';
-      } else {
-        rowEl.style.background = 'transparent';
-        rowEl.style.border = 'none';
-      }
-    });
+    const noCourseAlert = document.getElementById('noCourseTransferAlert');
+    const detailsBox = document.getElementById('courseBankDetails');
+
+    if (!selectedCourse || !publicConfig) {
+      if (noCourseAlert) noCourseAlert.style.display = 'block';
+      if (detailsBox) detailsBox.style.display = 'none';
+      return;
+    }
+
+    if (noCourseAlert) noCourseAlert.style.display = 'none';
+    if (detailsBox) detailsBox.style.display = 'block';
+
+    let alias = '';
+    let holder = '';
+    let cbu = '';
+    let bank = '';
+
+    if (selectedCourse === '6° Grado') {
+      alias = publicConfig.bank_alias_6to || 'SUNSET2026.6';
+      holder = publicConfig.bank_holder_6to || '';
+      cbu = publicConfig.bank_cbu_6to || '';
+      bank = publicConfig.bank_name_6to || '';
+    } else if (selectedCourse === '1° Año') {
+      alias = publicConfig.bank_alias_1ro || 'SUNSET2026.1';
+      holder = publicConfig.bank_holder_1ro || '';
+      cbu = publicConfig.bank_cbu_1ro || '';
+      bank = publicConfig.bank_name_1ro || '';
+    } else if (selectedCourse === '2° Año') {
+      alias = publicConfig.bank_alias_2do || 'SUNSET2026.2';
+      holder = publicConfig.bank_holder_2do || '';
+      cbu = publicConfig.bank_cbu_2do || '';
+      bank = publicConfig.bank_name_2do || '';
+    }
+
+    document.getElementById('transferBoxTitle').textContent = `🏦 Datos de Transferencia exclusivos para ${selectedCourse}`;
+    document.getElementById('activeAliasLabel').innerHTML = `Alias para <strong>${selectedCourse}</strong>:`;
+    document.getElementById('activeAliasText').textContent = alias;
+
+    const holderRow = document.getElementById('activeHolderRow');
+    if (holder && holder.trim()) {
+      holderRow.style.display = 'flex';
+      document.getElementById('activeHolderText').textContent = holder.trim();
+    } else {
+      holderRow.style.display = 'none';
+    }
+
+    const cbuRow = document.getElementById('activeCbuRow');
+    if (cbu && cbu.trim()) {
+      cbuRow.style.display = 'flex';
+      document.getElementById('activeCbuText').textContent = cbu.trim();
+    } else {
+      cbuRow.style.display = 'none';
+    }
+
+    const bankRow = document.getElementById('activeBankRow');
+    if (bank && bank.trim()) {
+      bankRow.style.display = 'flex';
+      document.getElementById('activeBankText').textContent = bank.trim();
+    } else {
+      bankRow.style.display = 'none';
+    }
   }
 
-  courseSelect.addEventListener('change', highlightSelectedCourseAlias);
+  courseSelect.addEventListener('change', updateCourseBankDetails);
 
   // Format currency ARS
   function formatARS(value) {
@@ -55,12 +101,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('doorPriceDisplay').textContent = formatARS(publicConfig.door_ticket_price);
       }
       document.getElementById('bankPriceText').textContent = formatARS(publicConfig.ticket_price);
-      document.getElementById('bankAlias6toText').textContent = publicConfig.bank_alias_6to || publicConfig.bank_alias || 'SUNSET2026.6';
-      document.getElementById('bankAlias1roText').textContent = publicConfig.bank_alias_1ro || 'SUNSET2026.1';
-      document.getElementById('bankAlias2doText').textContent = publicConfig.bank_alias_2do || 'SUNSET2026.2';
-      document.getElementById('bankCbuText').textContent = publicConfig.bank_cbu;
-      document.getElementById('bankHolderText').textContent = `${publicConfig.bank_holder} (${publicConfig.bank_name})`;
       document.getElementById('cashInstructionsText').textContent = publicConfig.cash_instructions;
+      updateCourseBankDetails();
 
       if (Array.isArray(publicConfig.divisions) && publicConfig.divisions.length > 0) {
         const divSelect = document.getElementById('division');
@@ -126,22 +168,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Copy bank alias buttons (for all 3 aliases)
-  document.querySelectorAll('.copy-alias-btn').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const targetId = btn.getAttribute('data-target');
-      const targetEl = document.getElementById(targetId);
-      if (!targetEl) return;
-      const alias = targetEl.textContent.trim();
+  // Copy active course alias button
+  const copyActiveAliasBtn = document.getElementById('copyActiveAliasBtn');
+  if (copyActiveAliasBtn) {
+    copyActiveAliasBtn.addEventListener('click', () => {
+      const alias = document.getElementById('activeAliasText').textContent.trim();
       navigator.clipboard.writeText(alias).then(() => {
-        const original = btn.textContent;
-        btn.textContent = '✅ ¡Copiado!';
+        const original = copyActiveAliasBtn.textContent;
+        copyActiveAliasBtn.textContent = '✅ ¡Copiado!';
         setTimeout(() => {
-          btn.textContent = original;
+          copyActiveAliasBtn.textContent = original;
         }, 2000);
       });
     });
-  });
+  }
 
   // Upload zone interaction
   uploadZone.addEventListener('click', () => {
@@ -234,6 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
         );
         form.reset();
         setPaymentMethod('efectivo');
+        updateCourseBankDetails();
         uploadFileName.textContent = 'Hacé clic acá para subir el comprobante de transferencia *';
         receiptPreview.style.display = 'none';
       }

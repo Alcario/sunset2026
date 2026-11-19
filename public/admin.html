@@ -147,31 +147,71 @@
             <label>Precio en Puerta ($ ARS)</label>
             <input type="number" id="set_door_ticket_price" class="form-control" required />
           </div>
+
+          <!-- CUENTA 1: 6° GRADO -->
+          <div class="form-group full-width" style="margin-top: 8px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 14px;">
+            <h4 style="color: var(--sunset-gold);">🏦 Cuenta 1 — Para alumnos de 6° Grado</h4>
+          </div>
           <div class="form-group">
-            <label>Alias 1 — 6° Grado (Transferencias)</label>
+            <label>Alias 6° Grado *</label>
             <input type="text" id="set_bank_alias_6to" class="form-control" placeholder="Ej: SUNSET2026.6" required />
           </div>
           <div class="form-group">
-            <label>Alias 2 — 1° Año (Transferencias)</label>
+            <label>Titular 6° Grado (Opcional)</label>
+            <input type="text" id="set_bank_holder_6to" class="form-control" placeholder="Nombre y Apellido del titular" />
+          </div>
+          <div class="form-group">
+            <label>CBU / CVU 6° Grado (Opcional)</label>
+            <input type="text" id="set_bank_cbu_6to" class="form-control" placeholder="000000..." />
+          </div>
+          <div class="form-group">
+            <label>Banco / Billetera 6° Grado (Opcional)</label>
+            <input type="text" id="set_bank_name_6to" class="form-control" placeholder="Ej: Mercado Pago / Bancor" />
+          </div>
+
+          <!-- CUENTA 2: 1° AÑO -->
+          <div class="form-group full-width" style="margin-top: 8px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 14px;">
+            <h4 style="color: var(--sunset-gold);">🏦 Cuenta 2 — Para alumnos de 1° Año</h4>
+          </div>
+          <div class="form-group">
+            <label>Alias 1° Año *</label>
             <input type="text" id="set_bank_alias_1ro" class="form-control" placeholder="Ej: SUNSET2026.1" required />
           </div>
           <div class="form-group">
-            <label>Alias 3 — 2° Año (Transferencias)</label>
+            <label>Titular 1° Año (Opcional)</label>
+            <input type="text" id="set_bank_holder_1ro" class="form-control" placeholder="Nombre y Apellido del titular" />
+          </div>
+          <div class="form-group">
+            <label>CBU / CVU 1° Año (Opcional)</label>
+            <input type="text" id="set_bank_cbu_1ro" class="form-control" placeholder="000000..." />
+          </div>
+          <div class="form-group">
+            <label>Banco / Billetera 1° Año (Opcional)</label>
+            <input type="text" id="set_bank_name_1ro" class="form-control" placeholder="Ej: Mercado Pago / Bancor" />
+          </div>
+
+          <!-- CUENTA 3: 2° AÑO -->
+          <div class="form-group full-width" style="margin-top: 8px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 14px;">
+            <h4 style="color: var(--sunset-gold);">🏦 Cuenta 3 — Para alumnos de 2° Año</h4>
+          </div>
+          <div class="form-group">
+            <label>Alias 2° Año *</label>
             <input type="text" id="set_bank_alias_2do" class="form-control" placeholder="Ej: SUNSET2026.2" required />
           </div>
           <div class="form-group">
-            <label>CBU / CVU</label>
-            <input type="text" id="set_bank_cbu" class="form-control" required />
+            <label>Titular 2° Año (Opcional)</label>
+            <input type="text" id="set_bank_holder_2do" class="form-control" placeholder="Nombre y Apellido del titular" />
           </div>
           <div class="form-group">
-            <label>Titular de la Cuenta</label>
-            <input type="text" id="set_bank_holder" class="form-control" required />
+            <label>CBU / CVU 2° Año (Opcional)</label>
+            <input type="text" id="set_bank_cbu_2do" class="form-control" placeholder="000000..." />
           </div>
           <div class="form-group">
-            <label>Banco / Billetera</label>
-            <input type="text" id="set_bank_name" class="form-control" required />
+            <label>Banco / Billetera 2° Año (Opcional)</label>
+            <input type="text" id="set_bank_name_2do" class="form-control" placeholder="Ej: Mercado Pago / Bancor" />
           </div>
-          <div class="form-group">
+
+          <div class="form-group full-width" style="margin-top: 8px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 14px;">
             <label>Divisiones disponibles (separadas por coma)</label>
             <input type="text" id="set_divisions" class="form-control" placeholder="A,B,C,Única" required />
           </div>

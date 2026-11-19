@@ -393,11 +393,20 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('set_door_ticket_price').value = s.door_ticket_price || '15000';
       }
       document.getElementById('set_bank_alias_6to').value = s.bank_alias_6to || s.bank_alias || 'SUNSET2026.6';
+      document.getElementById('set_bank_holder_6to').value = s.bank_holder_6to || '';
+      document.getElementById('set_bank_cbu_6to').value = s.bank_cbu_6to || '';
+      document.getElementById('set_bank_name_6to').value = s.bank_name_6to || '';
+
       document.getElementById('set_bank_alias_1ro').value = s.bank_alias_1ro || 'SUNSET2026.1';
+      document.getElementById('set_bank_holder_1ro').value = s.bank_holder_1ro || '';
+      document.getElementById('set_bank_cbu_1ro').value = s.bank_cbu_1ro || '';
+      document.getElementById('set_bank_name_1ro').value = s.bank_name_1ro || '';
+
       document.getElementById('set_bank_alias_2do').value = s.bank_alias_2do || 'SUNSET2026.2';
-      document.getElementById('set_bank_cbu').value = s.bank_cbu || '';
-      document.getElementById('set_bank_holder').value = s.bank_holder || '';
-      document.getElementById('set_bank_name').value = s.bank_name || '';
+      document.getElementById('set_bank_holder_2do').value = s.bank_holder_2do || '';
+      document.getElementById('set_bank_cbu_2do').value = s.bank_cbu_2do || '';
+      document.getElementById('set_bank_name_2do').value = s.bank_name_2do || '';
+
       document.getElementById('set_divisions').value = s.divisions || 'A,B,C,Única';
       document.getElementById('set_cash_instructions').value = s.cash_instructions || '';
       document.getElementById('set_smtp_user').value = s.smtp_user || '';
@@ -418,11 +427,17 @@ document.addEventListener('DOMContentLoaded', () => {
       door_ticket_price: document.getElementById('set_door_ticket_price')?.value.trim() || '15000',
       bank_alias: document.getElementById('set_bank_alias_6to').value.trim(),
       bank_alias_6to: document.getElementById('set_bank_alias_6to').value.trim(),
+      bank_holder_6to: document.getElementById('set_bank_holder_6to').value.trim(),
+      bank_cbu_6to: document.getElementById('set_bank_cbu_6to').value.trim(),
+      bank_name_6to: document.getElementById('set_bank_name_6to').value.trim(),
       bank_alias_1ro: document.getElementById('set_bank_alias_1ro').value.trim(),
+      bank_holder_1ro: document.getElementById('set_bank_holder_1ro').value.trim(),
+      bank_cbu_1ro: document.getElementById('set_bank_cbu_1ro').value.trim(),
+      bank_name_1ro: document.getElementById('set_bank_name_1ro').value.trim(),
       bank_alias_2do: document.getElementById('set_bank_alias_2do').value.trim(),
-      bank_cbu: document.getElementById('set_bank_cbu').value.trim(),
-      bank_holder: document.getElementById('set_bank_holder').value.trim(),
-      bank_name: document.getElementById('set_bank_name').value.trim(),
+      bank_holder_2do: document.getElementById('set_bank_holder_2do').value.trim(),
+      bank_cbu_2do: document.getElementById('set_bank_cbu_2do').value.trim(),
+      bank_name_2do: document.getElementById('set_bank_name_2do').value.trim(),
       divisions: document.getElementById('set_divisions').value.trim(),
       cash_instructions: document.getElementById('set_cash_instructions').value.trim(),
       smtp_user: document.getElementById('set_smtp_user').value.trim(),

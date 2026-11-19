@@ -183,13 +183,18 @@ app.get('/api/public-config', (_req, res) => {
     venue_address: s.venue_address,
     ticket_price: s.ticket_price,
     door_ticket_price: s.door_ticket_price || '15000',
-    bank_alias: s.bank_alias_6to || s.bank_alias || 'SUNSET2026.6',
     bank_alias_6to: s.bank_alias_6to || s.bank_alias || 'SUNSET2026.6',
+    bank_holder_6to: s.bank_holder_6to || '',
+    bank_cbu_6to: s.bank_cbu_6to || '',
+    bank_name_6to: s.bank_name_6to || '',
     bank_alias_1ro: s.bank_alias_1ro || 'SUNSET2026.1',
+    bank_holder_1ro: s.bank_holder_1ro || '',
+    bank_cbu_1ro: s.bank_cbu_1ro || '',
+    bank_name_1ro: s.bank_name_1ro || '',
     bank_alias_2do: s.bank_alias_2do || 'SUNSET2026.2',
-    bank_cbu: s.bank_cbu,
-    bank_holder: s.bank_holder,
-    bank_name: s.bank_name,
+    bank_holder_2do: s.bank_holder_2do || '',
+    bank_cbu_2do: s.bank_cbu_2do || '',
+    bank_name_2do: s.bank_name_2do || '',
     cash_instructions: s.cash_instructions,
     divisions: (s.divisions || 'A,B,C,Única').split(',').map((d) => d.trim()).filter(Boolean)
   });
@@ -461,7 +466,7 @@ app.delete('/api/admin/registrations/:id', requireAuth, (req, res) => {
     if (fs.existsSync(fullPath)) {
       try {
         fs.unlinkSync(fullPath);
-      } catch (_e) {}
+      } catch (_e) { }
     }
   }
   db.prepare('DELETE FROM registrations WHERE id = ?').run(id);
