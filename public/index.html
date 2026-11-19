@@ -132,10 +132,11 @@
     <div class="form-container">
       <div class="price-banner">
         <div>
-          <div style="font-size: 0.84rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Valor de la Entrada General</div>
-          <div style="font-size: 0.92rem; color: #fff;">Incluye acceso al evento + participación en sorteos</div>
+          <div style="font-size: 0.84rem; color: var(--sunset-gold); text-transform: uppercase; font-weight: 800;">🎟️ Entrada Anticipada (Inscribiéndote acá)</div>
+          <div style="font-size: 0.96rem; color: #fff; font-weight: 600;">✨ Incluye acceso al evento + <strong>consumición</strong></div>
+          <div style="font-size: 0.84rem; color: var(--text-muted); margin-top: 4px;">🚪 Valor si se compra en puerta el día del evento: <strong id="doorPriceDisplay" style="color: #ffb38a;">$15.000</strong></div>
         </div>
-        <div class="price-tag" id="ticketPriceDisplay">$8.000</div>
+        <div class="price-tag" id="ticketPriceDisplay">$12.000</div>
       </div>
 
       <div id="formAlert" style="display: none;"></div>
@@ -182,9 +183,14 @@
             </select>
           </div>
 
-          <div class="form-group full-width">
-            <label for="parent_phone">Teléfono de Padre / Madre / Tutor (con característica) *</label>
+          <div class="form-group">
+            <label for="parent_phone">Teléfono del Padre / Madre / Tutor *</label>
             <input type="tel" id="parent_phone" name="parent_phone" class="form-control" placeholder="Ej: 351 6123456" required />
+          </div>
+
+          <div class="form-group">
+            <label for="pickup_adult">Mayor a cargo que lo/la retira *</label>
+            <input type="text" id="pickup_adult" name="pickup_adult" class="form-control" placeholder="Nombre, apellido y parentesco (Ej: María López - Madre)" required />
           </div>
 
           <!-- Payment Method Selection -->
@@ -222,13 +228,13 @@
             <div class="payment-info-box">
               <div style="font-weight: 800; color: var(--sunset-gold); margin-bottom: 10px;">🏦 Datos para realizar la Transferencia</div>
               <div class="bank-detail-row">
-                <span style="color: var(--text-muted);">Monto a transferir:</span>
-                <strong id="bankPriceText" style="color: var(--sunset-gold); font-size: 1.05rem;">$8.000</strong>
+                <span style="color: var(--text-muted);">Monto a transferir (Anticipada c/ consumición):</span>
+                <strong id="bankPriceText" style="color: var(--sunset-gold); font-size: 1.05rem;">$12.000</strong>
               </div>
               <div class="bank-detail-row">
-                <span style="color: var(--text-muted);">Alias:</span>
+                <span style="color: var(--text-muted);">Alias (6° Año):</span>
                 <div style="display:flex; align-items:center; gap:8px;">
-                  <strong id="bankAliasText" style="font-family: monospace; font-size: 1.05rem; color: #fff;">SUNSET.VALLE.26</strong>
+                  <strong id="bankAliasText" style="font-family: monospace; font-size: 1.05rem; color: #fff;">SUNSET2026.6</strong>
                   <button type="button" class="btn btn-secondary btn-sm" id="copyAliasBtn" style="padding: 4px 10px; font-size: 0.76rem;">📋 Copiar</button>
                 </div>
               </div>

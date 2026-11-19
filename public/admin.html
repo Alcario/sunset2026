@@ -113,7 +113,7 @@
               <th>Alumno/a</th>
               <th>DNI</th>
               <th>Curso</th>
-              <th>Correo / Tel. Padres</th>
+              <th>Contacto / Quién Retira</th>
               <th>Pago y Comprobante</th>
               <th>Estado / Puerta</th>
               <th>Acciones</th>
@@ -140,8 +140,12 @@
       <form id="settingsForm">
         <div class="form-grid">
           <div class="form-group">
-            <label>Precio de la Entrada ($ ARS)</label>
+            <label>Precio Anticipada c/ consumición ($ ARS)</label>
             <input type="number" id="set_ticket_price" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label>Precio en Puerta ($ ARS)</label>
+            <input type="number" id="set_door_ticket_price" class="form-control" required />
           </div>
           <div class="form-group">
             <label>Alias Bancario (Transferencias)</label>

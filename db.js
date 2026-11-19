@@ -24,6 +24,7 @@ db.exec(`
     course TEXT NOT NULL,
     division TEXT NOT NULL DEFAULT 'A',
     parent_phone TEXT NOT NULL,
+    pickup_adult TEXT NOT NULL DEFAULT '',
     payment_method TEXT NOT NULL CHECK(payment_method IN ('efectivo', 'transferencia')),
     receipt_path TEXT,
     status TEXT NOT NULL DEFAULT 'pendiente' CHECK(status IN ('pendiente', 'confirmado', 'rechazado')),
@@ -52,8 +53,9 @@ const defaultSettings = {
   event_time_end: '23:00',
   venue_name: 'Predio / Salón del Instituto Parroquia Nuestra Señora del Valle',
   venue_address: 'Córdoba, Argentina',
-  ticket_price: '8000',
-  bank_alias: 'SUNSET.VALLE.26',
+  ticket_price: '12000',
+  door_ticket_price: '15000',
+  bank_alias: 'SUNSET2026.6',
   bank_cbu: '0000003100000000000000',
   bank_holder: 'Promo 6to Año - Ntra. Sra. del Valle',
   bank_name: 'Mercado Pago / Banco de Córdoba',
@@ -69,6 +71,15 @@ const insertSetting = db.prepare('INSERT OR IGNORE INTO settings (key, value) VA
 for (const [k, v] of Object.entries(defaultSettings)) {
   insertSetting.run(k, v);
 }
+
+// Safe migration for pickup_adult column & updated price/alias defaults
+try {
+  db.exec("ALTER TABLE registrations ADD COLUMN pickup_adult TEXT NOT NULL DEFAULT '';");
+} catch (_e) {
+  // Column already exists
+}
+db.prepare("UPDATE settings SET value = '12000' WHERE key = 'ticket_price' AND value = '8000'").run();
+db.prepare("UPDATE settings SET value = 'SUNSET2026.6' WHERE key = 'bank_alias' AND value = 'SUNSET.VALLE.26'").run();
 
 function getSettings() {
   const rows = db.prepare('SELECT key, value FROM settings').all();

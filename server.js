@@ -134,9 +134,11 @@ async function sendTicketEmail(registration, settings) {
         <div>👤 <strong>Alumno/a:</strong> ${registration.first_name} ${registration.last_name}</div>
         <div>🪪 <strong>DNI:</strong> ${registration.dni}</div>
         <div>🎓 <strong>Curso:</strong> ${registration.course} "${registration.division}"</div>
+        <div>🚗 <strong>Mayor que retira:</strong> ${registration.pickup_adult || '-'}</div>
         <div>📅 <strong>Fecha:</strong> Viernes 27 de Noviembre de 2026</div>
         <div>🕢 <strong>Horario:</strong> ${settings.event_time_start} a ${settings.event_time_end} hs</div>
         <div>📍 <strong>Lugar:</strong> ${settings.venue_name}</div>
+        <div>🥤 <strong>Beneficio:</strong> Entrada incluye consumición</div>
       </div>
 
       <p style="margin-top: 20px; font-size: 12px; color: #ffb38a; background: rgba(255, 94, 98, 0.15); padding: 10px 14px; border-radius: 10px;">
@@ -180,6 +182,7 @@ app.get('/api/public-config', (_req, res) => {
     venue_name: s.venue_name,
     venue_address: s.venue_address,
     ticket_price: s.ticket_price,
+    door_ticket_price: s.door_ticket_price || '15000',
     bank_alias: s.bank_alias,
     bank_cbu: s.bank_cbu,
     bank_holder: s.bank_holder,
@@ -205,6 +208,7 @@ app.post('/api/register', (req, res) => {
         course = '',
         division = 'Única',
         parent_phone = '',
+        pickup_adult = '',
         payment_method = ''
       } = req.body;
 
@@ -215,11 +219,12 @@ app.post('/api/register', (req, res) => {
       const cleanCourse = course.trim();
       const cleanDivision = division.trim() || 'Única';
       const cleanParentPhone = parent_phone.trim();
+      const cleanPickupAdult = pickup_adult.trim();
       const cleanPaymentMethod = payment_method.trim().toLowerCase();
 
-      if (!cleanFirstName || !cleanLastName || !cleanDni || !cleanEmail || !cleanCourse || !cleanParentPhone || !cleanPaymentMethod) {
+      if (!cleanFirstName || !cleanLastName || !cleanDni || !cleanEmail || !cleanCourse || !cleanParentPhone || !cleanPickupAdult || !cleanPaymentMethod) {
         if (req.file) fs.unlinkSync(req.file.path);
-        return res.status(400).json({ error: 'Por favor completá todos los campos obligatorios.' });
+        return res.status(400).json({ error: 'Por favor completá todos los campos obligatorios (incluyendo el mayor a cargo que retira).' });
       }
 
       if (cleanDni.length < 7 || cleanDni.length > 9) {
@@ -259,8 +264,8 @@ app.post('/api/register', (req, res) => {
       const insert = db.prepare(`
         INSERT INTO registrations (
           first_name, last_name, dni, email, course, division,
-          parent_phone, payment_method, receipt_path, status, created_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'pendiente', ?)
+          parent_phone, pickup_adult, payment_method, receipt_path, status, created_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pendiente', ?)
       `);
 
       const result = insert.run(
@@ -271,6 +276,7 @@ app.post('/api/register', (req, res) => {
         cleanCourse,
         cleanDivision,
         cleanParentPhone,
+        cleanPickupAdult,
         cleanPaymentMethod,
         receiptPath,
         createdAt

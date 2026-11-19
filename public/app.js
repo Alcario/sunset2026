@@ -30,6 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('heroTimeText').textContent = `${publicConfig.event_time_start} a ${publicConfig.event_time_end} hs`;
       document.getElementById('heroVenueText').textContent = `${publicConfig.venue_name} • ${publicConfig.province}`;
       document.getElementById('ticketPriceDisplay').textContent = formatARS(publicConfig.ticket_price);
+      if (document.getElementById('doorPriceDisplay') && publicConfig.door_ticket_price) {
+        document.getElementById('doorPriceDisplay').textContent = formatARS(publicConfig.door_ticket_price);
+      }
       document.getElementById('bankPriceText').textContent = formatARS(publicConfig.ticket_price);
       document.getElementById('bankAliasText').textContent = publicConfig.bank_alias;
       document.getElementById('bankCbuText').textContent = publicConfig.bank_cbu;
@@ -158,9 +161,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const course = document.getElementById('course').value;
     const division = document.getElementById('division').value;
     const parentPhone = document.getElementById('parent_phone').value.trim();
+    const pickupAdult = document.getElementById('pickup_adult').value.trim();
 
-    if (!firstName || !lastName || !dni || !email || !course || !parentPhone) {
-      return showAlert('error', '⚠️ Por favor completá todos los datos del alumno/a y el teléfono del padre/madre/tutor.');
+    if (!firstName || !lastName || !dni || !email || !course || !parentPhone || !pickupAdult) {
+      return showAlert('error', '⚠️ Por favor completá todos los datos del alumno/a, el teléfono de contacto y quién será el mayor a cargo que lo/la retira.');
     }
 
     if (selectedMethod === 'transferencia' && (!receiptInput.files || receiptInput.files.length === 0)) {
@@ -175,6 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
     formData.append('course', course);
     formData.append('division', division);
     formData.append('parent_phone', parentPhone);
+    formData.append('pickup_adult', pickupAdult);
     formData.append('payment_method', selectedMethod);
 
     if (selectedMethod === 'transferencia' && receiptInput.files[0]) {

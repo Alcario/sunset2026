@@ -187,6 +187,9 @@ document.addEventListener('DOMContentLoaded', () => {
               <div style="font-size: 0.84rem; color: var(--sunset-gold); margin-top: 3px;">
                 📞 Padres: <a href="https://wa.me/549${cleanPhone}" target="_blank" style="color: var(--sunset-gold); text-decoration: underline;">${r.parent_phone}</a>
               </div>
+              <div style="font-size: 0.82rem; color: #e9d5ff; margin-top: 3px;">
+                🚗 Retira: <strong>${r.pickup_adult || '-'}</strong>
+              </div>
             </td>
             <td>
               ${paymentBadge}
@@ -347,6 +350,7 @@ document.addEventListener('DOMContentLoaded', () => {
       'Division',
       'Email',
       'Telefono_Padres',
+      'Mayor_Que_Retira',
       'Forma_Pago',
       'Estado_Pago',
       'Codigo_QR',
@@ -362,6 +366,7 @@ document.addEventListener('DOMContentLoaded', () => {
       `"${r.division}"`,
       r.email,
       `"${r.parent_phone}"`,
+      `"${(r.pickup_adult || '').replace(/"/g, '""')}"`,
       r.payment_method,
       r.status,
       r.qr_token || '',
@@ -383,8 +388,11 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const res = await apiFetch('/api/admin/settings');
       const s = await res.json();
-      document.getElementById('set_ticket_price').value = s.ticket_price || '';
-      document.getElementById('set_bank_alias').value = s.bank_alias || '';
+      document.getElementById('set_ticket_price').value = s.ticket_price || '12000';
+      if (document.getElementById('set_door_ticket_price')) {
+        document.getElementById('set_door_ticket_price').value = s.door_ticket_price || '15000';
+      }
+      document.getElementById('set_bank_alias').value = s.bank_alias || 'SUNSET2026.6';
       document.getElementById('set_bank_cbu').value = s.bank_cbu || '';
       document.getElementById('set_bank_holder').value = s.bank_holder || '';
       document.getElementById('set_bank_name').value = s.bank_name || '';
@@ -405,6 +413,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const payload = {
       ticket_price: document.getElementById('set_ticket_price').value.trim(),
+      door_ticket_price: document.getElementById('set_door_ticket_price')?.value.trim() || '15000',
       bank_alias: document.getElementById('set_bank_alias').value.trim(),
       bank_cbu: document.getElementById('set_bank_cbu').value.trim(),
       bank_holder: document.getElementById('set_bank_holder').value.trim(),

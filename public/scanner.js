@@ -169,6 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div>🪪 <strong>DNI:</strong> ${s.dni}</div>
         <div>🎓 <strong>Curso:</strong> ${s.course} "${s.division}"</div>
         <div>📞 <strong>Tel. Padre/Madre:</strong> ${s.parent_phone}</div>
+        <div>🚗 <strong>Mayor que retira:</strong> ${s.pickup_adult || '-'}</div>
         ${s.checked_in_at ? `<div>🕒 <strong>Hora de ingreso:</strong> ${s.checked_in_at}</div>` : ''}
       `;
     } else {
