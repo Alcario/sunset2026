@@ -392,7 +392,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (document.getElementById('set_door_ticket_price')) {
         document.getElementById('set_door_ticket_price').value = s.door_ticket_price || '15000';
       }
-      document.getElementById('set_bank_alias').value = s.bank_alias || 'SUNSET2026.6';
+      document.getElementById('set_bank_alias_6to').value = s.bank_alias_6to || s.bank_alias || 'SUNSET2026.6';
+      document.getElementById('set_bank_alias_1ro').value = s.bank_alias_1ro || 'SUNSET2026.1';
+      document.getElementById('set_bank_alias_2do').value = s.bank_alias_2do || 'SUNSET2026.2';
       document.getElementById('set_bank_cbu').value = s.bank_cbu || '';
       document.getElementById('set_bank_holder').value = s.bank_holder || '';
       document.getElementById('set_bank_name').value = s.bank_name || '';
@@ -414,7 +416,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const payload = {
       ticket_price: document.getElementById('set_ticket_price').value.trim(),
       door_ticket_price: document.getElementById('set_door_ticket_price')?.value.trim() || '15000',
-      bank_alias: document.getElementById('set_bank_alias').value.trim(),
+      bank_alias: document.getElementById('set_bank_alias_6to').value.trim(),
+      bank_alias_6to: document.getElementById('set_bank_alias_6to').value.trim(),
+      bank_alias_1ro: document.getElementById('set_bank_alias_1ro').value.trim(),
+      bank_alias_2do: document.getElementById('set_bank_alias_2do').value.trim(),
       bank_cbu: document.getElementById('set_bank_cbu').value.trim(),
       bank_holder: document.getElementById('set_bank_holder').value.trim(),
       bank_name: document.getElementById('set_bank_name').value.trim(),

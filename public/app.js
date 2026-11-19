@@ -10,9 +10,30 @@ document.addEventListener('DOMContentLoaded', () => {
   const receiptPreview = document.getElementById('receiptPreview');
   const formAlert = document.getElementById('formAlert');
   const submitBtn = document.getElementById('submitBtn');
-  const copyAliasBtn = document.getElementById('copyAliasBtn');
+  const courseSelect = document.getElementById('course');
 
   let publicConfig = null;
+
+  function highlightSelectedCourseAlias() {
+    const selectedCourse = courseSelect.value;
+    const map = {
+      '6° Grado': document.getElementById('aliasRow6to'),
+      '1° Año': document.getElementById('aliasRow1ro'),
+      '2° Año': document.getElementById('aliasRow2do')
+    };
+    Object.entries(map).forEach(([courseName, rowEl]) => {
+      if (!rowEl) return;
+      if (selectedCourse === courseName) {
+        rowEl.style.background = 'rgba(255, 194, 71, 0.16)';
+        rowEl.style.border = '1px solid rgba(255, 194, 71, 0.55)';
+      } else {
+        rowEl.style.background = 'transparent';
+        rowEl.style.border = 'none';
+      }
+    });
+  }
+
+  courseSelect.addEventListener('change', highlightSelectedCourseAlias);
 
   // Format currency ARS
   function formatARS(value) {
@@ -34,7 +55,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('doorPriceDisplay').textContent = formatARS(publicConfig.door_ticket_price);
       }
       document.getElementById('bankPriceText').textContent = formatARS(publicConfig.ticket_price);
-      document.getElementById('bankAliasText').textContent = publicConfig.bank_alias;
+      document.getElementById('bankAlias6toText').textContent = publicConfig.bank_alias_6to || publicConfig.bank_alias || 'SUNSET2026.6';
+      document.getElementById('bankAlias1roText').textContent = publicConfig.bank_alias_1ro || 'SUNSET2026.1';
+      document.getElementById('bankAlias2doText').textContent = publicConfig.bank_alias_2do || 'SUNSET2026.2';
       document.getElementById('bankCbuText').textContent = publicConfig.bank_cbu;
       document.getElementById('bankHolderText').textContent = `${publicConfig.bank_holder} (${publicConfig.bank_name})`;
       document.getElementById('cashInstructionsText').textContent = publicConfig.cash_instructions;
@@ -103,15 +126,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Copy bank alias
-  copyAliasBtn.addEventListener('click', () => {
-    const alias = document.getElementById('bankAliasText').textContent.trim();
-    navigator.clipboard.writeText(alias).then(() => {
-      const original = copyAliasBtn.textContent;
-      copyAliasBtn.textContent = '✅ ¡Copiado!';
-      setTimeout(() => {
-        copyAliasBtn.textContent = original;
-      }, 2000);
+  // Copy bank alias buttons (for all 3 aliases)
+  document.querySelectorAll('.copy-alias-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.getAttribute('data-target');
+      const targetEl = document.getElementById(targetId);
+      if (!targetEl) return;
+      const alias = targetEl.textContent.trim();
+      navigator.clipboard.writeText(alias).then(() => {
+        const original = btn.textContent;
+        btn.textContent = '✅ ¡Copiado!';
+        setTimeout(() => {
+          btn.textContent = original;
+        }, 2000);
+      });
     });
   });
 
